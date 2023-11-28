@@ -139,8 +139,8 @@ const PowerBiContent: React.FC = () => {
         try {
             const pages = await report.getPages();
             const activePage = pages[0]; // Assuming we want to export data from the first page
-            const data = await activePage.getVisualData();
-            console.log(data)
+            // const data = await activePage.getVisualData();
+            console.log(activePage,pages)
         } catch (error) {
             console.log(error)
         }
