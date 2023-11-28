@@ -146,18 +146,12 @@ const PowerBiContent: React.FC = () => {
             for (var i = 0; i < visulas.length; i++) {
                 visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000) // Example parameters
                     .then((response: any) => {
-
                         console.log(visulas[i])
-
                         var workbook = XLSX.read(response.data, { type: 'string' });
-
                         XLSX.writeFile(workbook, 'output.xlsx');
-
                     }).catch((error: any) => {
-                        // Handle any errors
                         console.error('Error exporting data:', error);
                     });
-
             }
 
         } catch (error) {
