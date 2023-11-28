@@ -138,22 +138,16 @@ const PowerBiContent: React.FC = () => {
     const exportExcel = async () => {
         try {
             const pages = await report.getPages();
-            console.log(pages)
             const activePage = pages[0];
 
-            console.log(activePage)
             const visulas = await activePage.getVisuals();
-
+            var wb = XLSX.utils.book_new();
             for (var i = 0; i < visulas.length; i++) {
-                console.log(visulas[i])
-                visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000) // Example parameters
-                    .then((response: any) => {
-                        var workbook = XLSX.read(response.data, { type: 'string' });
-                        XLSX.writeFile(workbook, 'output.xlsx');
-                    }).catch((error: any) => {
-                        console.error('Error exporting data:', error);
-                    });
+                const response = await visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000)
+                var ws = XLSX.read(response.data, { type: 'string' });
+                XLSX.utils.book_append_sheet(wb, ws, visulas[i].title)
             }
+            XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
 
         } catch (error) {
             console.log(error)
