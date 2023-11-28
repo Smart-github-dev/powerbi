@@ -167,7 +167,7 @@ const PowerBiContent: React.FC = () => {
             const visulas = await activePage.getVisuals();
 
             for (var i = 0; i < visulas.length; i++) {
-                visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000) // Example parameters
+                visulas[i].exportData(powerbi.models.ExportDataType.Underlying, 1000) // Example parameters
                     .then((response: any) => {
                         // const csvData = convertToCSV(response.data); // Assume you have a function to convert data to CSV format
                         // console.log(csvData)
