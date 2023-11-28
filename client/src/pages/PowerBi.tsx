@@ -135,6 +135,17 @@ const PowerBiContent: React.FC = () => {
         if (report) report.print();
     };
 
+    const exportExcel = async () => {
+        try {
+            const pages = await report.getPages();
+            const activePage = pages[0]; // Assuming we want to export data from the first page
+            const data = await activePage.getVisualData();
+            console.log(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const handleReportLoad = (report: any) => {
         setReport(report)
         console.log(report)
@@ -148,7 +159,7 @@ const PowerBiContent: React.FC = () => {
             <Button onClick={() => exportAndDownloadReport(reportid, accessToken, "PPTX")} icon={<FilePptOutlined />}>
                 PPTX
             </Button>
-            <Button onClick={() => exportAndDownloadReport(reportid, accessToken, "PNG")} icon={<FileImageOutlined />}>
+            <Button onClick={() => exportExcel()} icon={<FileImageOutlined />}>
                 PNG
             </Button>
             <Button onClick={() => exportAndDownloadReport(reportid, accessToken, "CSV")} icon={<FileWordOutlined />}>
@@ -169,6 +180,10 @@ const PowerBiContent: React.FC = () => {
             reportMode="View" // open report in a particular mode View/Edit/Create
             permissions="All"
             datasetId={sampleReportConfig.datasetid}
+            style={{
+                height: "75vh",
+                width: "100 %"
+            }}
             onLoad={handleReportLoad}
         />
     </div> : <></>;
