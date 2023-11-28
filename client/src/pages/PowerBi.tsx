@@ -82,7 +82,7 @@ const PowerBiContent: React.FC = () => {
                     accessToken: fetchToken.token,
                     embedUrl: _report.embedUrl,
                     embedId: _report.id,
-                    permissions: powerbi.models.Permissions.All,
+                    permissions: 'View',
                     settings: {
                         filterPaneEnabled: true,
                         navContentPaneEnabled: true
