@@ -10,7 +10,7 @@ import { RootState, AppDispatch } from '../store';
 import { setData } from '../store/rootReducer';
 import * as powerbi from 'powerbi-client';
 import { Report } from "powerbi-report-component"
-
+import * as XLSX from "xlsx"
 
 
 import { Button, Flex } from "antd";
@@ -136,27 +136,7 @@ const PowerBiContent: React.FC = () => {
     };
 
 
-    const convertToCSV = (data: any) => {
-        // Assume data is an array of objects, where each object represents a row of data
-        if (data.length === 0) {
-            return ''; // Return an empty string if there is no data
-        }
 
-        // Extract the column headers from the first object in the data array
-        const headers = Object.keys(data[0]);
-
-        // Create the CSV header row
-        let csv = headers.join(',') + '\n';
-
-        // Create the CSV data rows
-        csv += data.map((row: any) => {
-            return headers.map(header => {
-                return row[header];
-            }).join(',');
-        }).join('\n');
-
-        return csv;
-    }
 
     const exportExcel = async () => {
         try {
@@ -169,23 +149,12 @@ const PowerBiContent: React.FC = () => {
             for (var i = 0; i < visulas.length; i++) {
                 visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000) // Example parameters
                     .then((response: any) => {
-                        // const csvData = convertToCSV(response.data); // Assume you have a function to convert data to CSV format
-                        // console.log(csvData)
-                        // Create a Blob from the data
-                        console.log(response.data)
-                        const blob = new Blob([response.data], { type: 'text/csv' });
 
-                        // // Create a link element to trigger the download
-                        const link = document.createElement('a');
-                        link.href = window.URL.createObjectURL(blob);
-                        link.download = 'exportedData.csv'; // Set the desired file name and extension
+                        console.log(visulas[i])
 
-                        // // Append the link to the body and trigger the download
-                        document.body.appendChild(link);
-                        link.click();
+                        var workbook = XLSX.read(response.data, { type: 'string' });
 
-                        // // Clean up
-                        document.body.removeChild(link);
+                        XLSX.writeFile(workbook, 'output.xlsx');
 
                     }).catch((error: any) => {
                         // Handle any errors
