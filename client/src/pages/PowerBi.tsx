@@ -89,10 +89,9 @@ const PowerBiContent: React.FC = () => {
                     }
                 };
 
-                const reportContainer = reportContainerRef.current;
 
 
-                embed(reportContainer, config)
+                embed(reportContainerRef, config)
 
 
                 setReportConfig({
