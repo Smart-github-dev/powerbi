@@ -150,12 +150,16 @@ const PowerBiContent: React.FC = () => {
 
     const reportid: any = sampleReportConfig.id;
     const accessToken: any = sampleReportConfig.accessToken
-
-
+    const reportdata: any = reports[currentReport];
+    const datasetid: string = reportdata.datasetId;
     const handleClick = () => {
         // you can use "report" from useReport like
         // if (report) report.print();
     };
+
+    const handleReportLoad = (report: any) => {
+        console.log(report)
+    }
 
     return sampleReportConfig.embedUrl ? <div >
         <Flex justify={"space-between"}>
@@ -185,10 +189,9 @@ const PowerBiContent: React.FC = () => {
             embedId={"" + sampleReportConfig.id} // report or dashboard Id goes here
             reportMode="View" // open report in a particular mode View/Edit/Create
             permissions="All"
+            datasetId={datasetid}
+            onLoad={handleReportLoad}
         />
-        {/* <div className={reportClass} ref={reportContainerRef} >
-
-        </div> */}
     </div> : <></>;
 };
 
