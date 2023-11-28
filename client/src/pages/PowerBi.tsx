@@ -173,19 +173,19 @@ const PowerBiContent: React.FC = () => {
                         // console.log(csvData)
                         // Create a Blob from the data
                         console.log(response.data)
-                        // const blob = new Blob([response.data], { type: 'text/csv' });
+                        const blob = new Blob([response.data], { type: 'text/csv' });
 
                         // // Create a link element to trigger the download
-                        // const link = document.createElement('a');
-                        // link.href = window.URL.createObjectURL(blob);
-                        // link.download = 'exportedData.csv'; // Set the desired file name and extension
+                        const link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = 'exportedData.csv'; // Set the desired file name and extension
 
                         // // Append the link to the body and trigger the download
-                        // document.body.appendChild(link);
-                        // link.click();
+                        document.body.appendChild(link);
+                        link.click();
 
                         // // Clean up
-                        // document.body.removeChild(link);
+                        document.body.removeChild(link);
 
                     }).catch((error: any) => {
                         // Handle any errors
