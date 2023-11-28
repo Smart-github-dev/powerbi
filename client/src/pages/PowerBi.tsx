@@ -147,23 +147,23 @@ const PowerBiContent: React.FC = () => {
                 includeHiddenPages: true // Set to true to include hidden data, or false to exclude hidden data
             };
             for (var i = 0; i < visulas.length; i++) {
-                // visulas[i].exportData(powerbi.models.ExportDataType.Summarized, "CSV") // Example parameters
-                //     .then((data: any) => {
-                //         console.log(data)
-                //     }).catch((error: any) => {
-                //         // Handle any errors
-                //         console.error('Error exporting data:', error);
-                //     });
-                visulas[i].exportData(exportDataType)
+                visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000) // Example parameters
                     .then((data: any) => {
-                        // Handle the exported data
-                        // ...
                         console.log(data)
-                    })
-                    .catch((error: any) => {
+                    }).catch((error: any) => {
                         // Handle any errors
                         console.error('Error exporting data:', error);
                     });
+                // visulas[i].exportData(exportDataType)
+                //     .then((data: any) => {
+                //         // Handle the exported data
+                //         // ...
+                //         console.log(data)
+                //     })
+                //     .catch((error: any) => {
+                //         // Handle any errors
+                //         console.error('Error exporting data:', error);
+                //     });
             }
 
 
