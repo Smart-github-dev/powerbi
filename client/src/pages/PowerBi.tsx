@@ -135,35 +135,63 @@ const PowerBiContent: React.FC = () => {
         if (report) report.print();
     };
 
+
+    const convertToCSV = (data: any) => {
+        // Assume data is an array of objects, where each object represents a row of data
+        if (data.length === 0) {
+            return ''; // Return an empty string if there is no data
+        }
+
+        // Extract the column headers from the first object in the data array
+        const headers = Object.keys(data[0]);
+
+        // Create the CSV header row
+        let csv = headers.join(',') + '\n';
+
+        // Create the CSV data rows
+        csv += data.map((row: any) => {
+            return headers.map(header => {
+                return row[header];
+            }).join(',');
+        }).join('\n');
+
+        return csv;
+    }
+
     const exportExcel = async () => {
         try {
             const pages = await report.getPages();
-            const activePage = pages[0]; // Assuming we want to export data from the first page
-            // const data = await activePage.getVisualData();
+            console.log(pages)
+            const activePage = pages[0];
 
             const visulas = await activePage.getVisuals();
-            const exportDataType = {
-                format: 'CSV', // Specify the export format, such as 'CSV'
-                includeHiddenPages: true // Set to true to include hidden data, or false to exclude hidden data
-            };
+
             for (var i = 0; i < visulas.length; i++) {
-                visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000) // Example parameters
+                visulas[i].exportData(powerbi.models.ExportDataType.Underlying, 1000) // Example parameters
                     .then((data: any) => {
                         console.log(data)
+                        const csvData = convertToCSV(data); // Assume you have a function to convert data to CSV format
+                        console.log(csvData)
+                        // Create a Blob from the data
+                        const blob = new Blob([csvData], { type: 'text/csv' });
+
+                        // Create a link element to trigger the download
+                        const link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = 'exportedData.csv'; // Set the desired file name and extension
+
+                        // Append the link to the body and trigger the download
+                        document.body.appendChild(link);
+                        link.click();
+
+                        // Clean up
+                        document.body.removeChild(link);
+
                     }).catch((error: any) => {
                         // Handle any errors
                         console.error('Error exporting data:', error);
                     });
-                // visulas[i].exportData(exportDataType)
-                //     .then((data: any) => {
-                //         // Handle the exported data
-                //         // ...
-                //         console.log(data)
-                //     })
-                //     .catch((error: any) => {
-                //         // Handle any errors
-                //         console.error('Error exporting data:', error);
-                //     });
+
             }
 
 
