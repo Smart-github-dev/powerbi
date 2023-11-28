@@ -1,3 +1,5 @@
 client/node_modules
 node_modules
 report.zip
+package-lock.json
+client/package-lock.json
