@@ -142,9 +142,14 @@ const PowerBiContent: React.FC = () => {
             // const data = await activePage.getVisualData();
 
             const visulas = await activePage.getVisuals();
-            console.log(visulas)
             for (var i = 0; i < visulas.length; i++) {
-                console.log(visulas[i].exportData, visulas[i].saveAsPDF, visulas[i].export)
+                visulas[i].exportData(powerbi.models.ExportDataType.Summarized, "CSV") // Example parameters
+                    .then((data: any) => {
+                        console.log(data)
+                    }).catch((error: any) => {
+                        // Handle any errors
+                        console.error('Error exporting data:', error);
+                    });
             }
 
         } catch (error) {
