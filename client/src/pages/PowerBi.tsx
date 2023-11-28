@@ -143,8 +143,8 @@ const PowerBiContent: React.FC = () => {
             const visulas = await activePage.getVisuals();
             var wb = XLSX.utils.book_new();
             for (var i = 0; i < visulas.length; i++) {
-                const response = await visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000)
-                console.log(response.data)
+                const response = await visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000);
+                console.log(response.data);
                 var ws = XLSX.read(response.data, { type: 'string' });
                 var sheetName = ws.SheetNames[0];
                 var sheet = ws.Sheets[sheetName];
