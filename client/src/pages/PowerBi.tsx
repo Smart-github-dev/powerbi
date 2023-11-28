@@ -168,9 +168,8 @@ const PowerBiContent: React.FC = () => {
 
             for (var i = 0; i < visulas.length; i++) {
                 visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000) // Example parameters
-                    .then((data: any) => {
-                        console.log(data)
-                        const csvData = convertToCSV(data); // Assume you have a function to convert data to CSV format
+                    .then((response: any) => {
+                        const csvData = convertToCSV(response.data); // Assume you have a function to convert data to CSV format
                         console.log(csvData)
                         // Create a Blob from the data
                         const blob = new Blob([csvData], { type: 'text/csv' });
