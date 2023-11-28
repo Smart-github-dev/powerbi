@@ -169,22 +169,23 @@ const PowerBiContent: React.FC = () => {
             for (var i = 0; i < visulas.length; i++) {
                 visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000) // Example parameters
                     .then((response: any) => {
-                        const csvData = convertToCSV(response.data); // Assume you have a function to convert data to CSV format
-                        console.log(csvData)
+                        // const csvData = convertToCSV(response.data); // Assume you have a function to convert data to CSV format
+                        // console.log(csvData)
                         // Create a Blob from the data
-                        const blob = new Blob([csvData], { type: 'text/csv' });
+                        console.log(response.data)
+                        // const blob = new Blob([response.data], { type: 'text/csv' });
 
-                        // Create a link element to trigger the download
-                        const link = document.createElement('a');
-                        link.href = window.URL.createObjectURL(blob);
-                        link.download = 'exportedData.csv'; // Set the desired file name and extension
+                        // // Create a link element to trigger the download
+                        // const link = document.createElement('a');
+                        // link.href = window.URL.createObjectURL(blob);
+                        // link.download = 'exportedData.csv'; // Set the desired file name and extension
 
-                        // Append the link to the body and trigger the download
-                        document.body.appendChild(link);
-                        link.click();
+                        // // Append the link to the body and trigger the download
+                        // document.body.appendChild(link);
+                        // link.click();
 
-                        // Clean up
-                        document.body.removeChild(link);
+                        // // Clean up
+                        // document.body.removeChild(link);
 
                     }).catch((error: any) => {
                         // Handle any errors
