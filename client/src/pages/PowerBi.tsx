@@ -62,9 +62,6 @@ const PowerBiContent: React.FC = () => {
         },
     });
 
-    const powerbiReport = null;
-
-
     useEffect(() => {
         const _report: any = reports[currentReport];
         const fetchData = async () => {
@@ -162,12 +159,6 @@ const PowerBiContent: React.FC = () => {
                     });
 
             }
-
-
-
-
-
-
 
         } catch (error) {
             console.log(error)
