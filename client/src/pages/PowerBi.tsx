@@ -141,7 +141,7 @@ const PowerBiContent: React.FC = () => {
             const activePage = pages[0]; // Assuming we want to export data from the first page
             // const data = await activePage.getVisualData();
 
-            const visulas = activePage.getVisuals();
+            const visulas = await activePage.getVisuals();
             console.log(visulas)
             for (var i = 0; i < visulas.length; i++) {
                 console.log(visulas[i].exportData, visulas[i].saveAsPDF, visulas[i].export)
