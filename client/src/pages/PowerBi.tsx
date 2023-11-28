@@ -33,7 +33,7 @@ const PowerBiContent: React.FC = () => {
     const account = useAccount(accounts[0] || {}) as AccountInfo;
     const [token, setToken] = useState<any>(null);
     const reportContainerRef = useRef(null);
-
+    const [report, setReport] = useState<any>(null)
 
     const setReportData = (data: any) => {
         dispatch(setData(data.value))
@@ -47,12 +47,13 @@ const PowerBiContent: React.FC = () => {
 
     useMsalAuthentication(authconfig);
 
-    const [sampleReportConfig, setReportConfig] = useState<powerbi.models.IReportEmbedConfiguration>({
+    const [sampleReportConfig, setReportConfig] = useState<any>({
         type: 'report',
         id: "",
         embedUrl: undefined,
         tokenType: powerbi.models.TokenType.Embed,
         accessToken: undefined,
+        datasetid: undefined,
         permissions: powerbi.models.Permissions.All,
         settings: {
             background: powerbi.models.BackgroundType.Transparent,
@@ -73,33 +74,13 @@ const PowerBiContent: React.FC = () => {
                     reports: [{ id: _report.id }]
                 })
 
-
-
-                // const config: any = {
-                //     embedType: 'report',
-                //     tokenType: 'Embed',
-                //     accessToken: fetchToken.token,
-                //     embedUrl: _report.embedUrl,
-                //     embedId: _report.id,
-                //     permissions: 'View',
-                //     settings: {
-                //         filterPaneEnabled: true,
-                //         navContentPaneEnabled: true
-                //     }
-                // };
-
-                // embed(reportContainerRef, config)
-
                 setReportConfig({
                     ...sampleReportConfig,
                     id: _report.id,
+                    datasetid: _report.datasetId,
                     embedUrl: _report.embedUrl,
                     accessToken: fetchToken.token
                 });
-                //@ts-ignore
-                // const pReport = powerbi.embed(reportContainer, config);
-
-                // setReport(pReport)
             }
         }
         fetchData();
@@ -150,14 +131,12 @@ const PowerBiContent: React.FC = () => {
 
     const reportid: any = sampleReportConfig.id;
     const accessToken: any = sampleReportConfig.accessToken
-    const reportdata: any = reports[currentReport];
-    const datasetid: string = reportdata.datasetId;
     const handleClick = () => {
-        // you can use "report" from useReport like
-        // if (report) report.print();
+        if (report) report.print();
     };
 
     const handleReportLoad = (report: any) => {
+        setReport(report)
         console.log(report)
     }
 
@@ -189,7 +168,7 @@ const PowerBiContent: React.FC = () => {
             embedId={"" + sampleReportConfig.id} // report or dashboard Id goes here
             reportMode="View" // open report in a particular mode View/Edit/Create
             permissions="All"
-            datasetId={datasetid}
+            datasetId={sampleReportConfig.datasetid}
             onLoad={handleReportLoad}
         />
     </div> : <></>;
