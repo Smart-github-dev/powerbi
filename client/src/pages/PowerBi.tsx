@@ -142,6 +142,7 @@ const PowerBiContent: React.FC = () => {
             // const data = await activePage.getVisualData();
 
             const visulas = activePage.getVisuals();
+            console.log(visulas)
             for (var i = 0; i < visulas.length; i++) {
                 console.log(visulas[i].exportData, visulas[i].saveAsPDF, visulas[i].export)
             }
