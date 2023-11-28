@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../store';
 import { setData } from '../store/rootReducer';
 import * as powerbi from 'powerbi-client';
+import { useReport } from "powerbi-report-component"
 
 
 
@@ -32,6 +33,8 @@ const PowerBiContent: React.FC = () => {
     const account = useAccount(accounts[0] || {}) as AccountInfo;
     const [token, setToken] = useState<any>(null);
     const reportContainerRef = useRef(null);
+    const [report, embed] = useReport();
+
 
     const setReportData = (data: any) => {
         dispatch(setData(data.value))
@@ -42,7 +45,6 @@ const PowerBiContent: React.FC = () => {
         account: account
     }
 
-    const [report, setReport] = useState<any>();
 
     useMsalAuthentication(authconfig);
 
@@ -71,20 +73,15 @@ const PowerBiContent: React.FC = () => {
                     datasets: [{ id: _report.datasetId }],
                     reports: [{ id: _report.id }]
                 })
-                setReportConfig({
-                    ...sampleReportConfig,
-                    id: _report.id,
-                    embedUrl: _report.embedUrl,
-                    accessToken: fetchToken.token
-                });
 
 
-                const config = {
-                    type: 'report',
-                    tokenType: powerbi.models.TokenType.Embed,
+
+                const config: any = {
+                    embedType: 'report',
+                    tokenType: 'Embed',
                     accessToken: fetchToken.token,
                     embedUrl: _report.embedUrl,
-                    id: _report.id,
+                    embedId: _report.id,
                     permissions: powerbi.models.Permissions.All,
                     settings: {
                         filterPaneEnabled: true,
@@ -94,10 +91,20 @@ const PowerBiContent: React.FC = () => {
 
                 const reportContainer = reportContainerRef.current;
 
-                //@ts-ignore
-                const pReport = powerbi.embed(reportContainer, config);
 
-                setReport(pReport)
+                embed(reportContainer, config)
+
+
+                setReportConfig({
+                    ...sampleReportConfig,
+                    id: _report.id,
+                    embedUrl: _report.embedUrl,
+                    accessToken: fetchToken.token
+                });
+                //@ts-ignore
+                // const pReport = powerbi.embed(reportContainer, config);
+
+                // setReport(pReport)
             }
         }
         fetchData();
@@ -148,9 +155,16 @@ const PowerBiContent: React.FC = () => {
 
     const reportid: any = sampleReportConfig.id;
     const accessToken: any = sampleReportConfig.accessToken
+
+
+    const handleClick = () => {
+        // you can use "report" from useReport like
+        if (report) report.print();
+    };
+
     return sampleReportConfig.embedUrl ? <div >
         <Flex justify={"space-between"}>
-            <Button onClick={() => exportAndDownloadReport(reportid, accessToken, "PDF")} icon={<FilePdfOutlined />}>
+            <Button onClick={() => handleClick()} icon={<FilePdfOutlined />}>
                 PDF
             </Button>
             <Button onClick={() => exportAndDownloadReport(reportid, accessToken, "PPTX")} icon={<FilePptOutlined />}>
