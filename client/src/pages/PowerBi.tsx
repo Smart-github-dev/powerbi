@@ -5,14 +5,12 @@ import { InteractionRequiredAuthError, AccountInfo, InteractionType } from "@azu
 import { protectedResources } from "../authConfig";
 import { getrepots, gettoken } from "../powerBiConfig"
 import { callApiWIthTokenAndBody, callApiWithToken, exportAndDownloadReport } from "../fetch";
-import { ProfileData } from "../components/ProfileData";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../store';
 import { setData } from '../store/rootReducer';
-import { PowerBIEmbed } from 'powerbi-client-react';
+import * as powerbi from 'powerbi-client';
 
-import { models, Report, Embed, service, Page, } from 'powerbi-client';
-import * as pbi from 'powerbi-client';
+
 
 import { Button, Flex } from "antd";
 import {
@@ -33,7 +31,7 @@ const PowerBiContent: React.FC = () => {
     const { instance, accounts, inProgress } = useMsal();
     const account = useAccount(accounts[0] || {}) as AccountInfo;
     const [token, setToken] = useState<any>(null);
-    const reportRef = useRef(null);
+    const reportContainerRef = useRef(null);
 
     const setReportData = (data: any) => {
         dispatch(setData(data.value))
@@ -46,107 +44,23 @@ const PowerBiContent: React.FC = () => {
 
     const [report, setReport] = useState<any>();
 
-
-    const [eventHandlersMap, setEventHandlersMap] = useState<Map<string, (event?: service.ICustomEvent<any>, embeddedEntity?: Embed) => void | null>>(new Map([
-        ['loaded', (event) => {
-            //@ts-ignore
-            console.log(event.exportData);
-            report.getPages().then((pages: any) => {
-                const activePage = pages[0];
-                activePage.getVisuals().then((visuals: any) => {
-                    const visual = visuals[0];
-                    console.log(visual)
-                })
-            })
-
-            setReport(event)
-        }],
-        ['rendered', () => console.log('Report has rendered')],
-        ['error', (event?: service.ICustomEvent<any>) => {
-            if (event) {
-                console.error(event.detail);
-            }
-        },
-        ],
-        ['visualClicked', () => console.log('visual clicked')],
-        ['pageChanged', (event) => console.log(event)],
-    ]));
-
-
-    const setDataSelectedEvent = () => {
-        // setEventHandlersMap(new Map<string, (event?: service.ICustomEvent<any>, embeddedEntity?: Embed) => void | null>([
-        //     ...eventHandlersMap,
-        //     ['dataSelected', (event) => console.log(event)],
-        // ]));
-
-        console.log('Data Selected event set successfully. Select data to see event in console.');
-    }
-
-
-    const changeVisualType = async (): Promise<void> => {
-        // Check if report is available or not
-        if (!report) {
-            console.log('Report not available');
-            return;
-        }
-
-        // Get active page of the report
-        const activePage: Page | undefined = await report.getActivePage();
-
-        if (!activePage) {
-            console.log('No Active page found');
-            return;
-        }
-
-        try {
-            const visual: any = await activePage.getVisualByName('VisualContainer6');
-
-            const response = await visual.changeType('lineChart');
-
-            console.log(`The ${visual.type} was updated to lineChart.`);
-
-            return response;
-        }
-        catch (error) {
-            if (error === 'PowerBIEntityNotFound') {
-                console.log('No Visual found with that name');
-            } else {
-                console.log(error);
-            }
-        }
-    };
-
-
-    // const exportAndDownloadReport = async (reportid: string, accesstoken: string, exportFormat: string) => {
-    //     try {
-    //         const result = await report.exportData(models.ExportDataType.Summarized, exportFormat);
-    //         const downloadLink = document.createElement('a');
-    //         downloadLink.href = result.fileUrl;
-    //         downloadLink.download = `exported_report.${exportFormat.toLowerCase()}`;
-    //         downloadLink.click();
-    //         console.log('Exported data:', result);
-    //     } catch (error) {
-    //         console.error('Error:', error);
-    //     }
-    // };
-
     useMsalAuthentication(authconfig);
 
-    const [sampleReportConfig, setReportConfig] = useState<models.IReportEmbedConfiguration>({
+    const [sampleReportConfig, setReportConfig] = useState<powerbi.models.IReportEmbedConfiguration>({
         type: 'report',
         id: undefined,
         embedUrl: undefined,
-        tokenType: models.TokenType.Embed,
+        tokenType: powerbi.models.TokenType.Embed,
         accessToken: undefined,
-        permissions: models.Permissions.All,
+        permissions: powerbi.models.Permissions.All,
         settings: {
-            background: models.BackgroundType.Transparent,
+            background: powerbi.models.BackgroundType.Transparent,
             filterPaneEnabled: true,
             navContentPaneEnabled: true
         },
     });
 
-
+    const powerbiReport = null;
 
 
     useEffect(() => {
@@ -163,7 +77,27 @@ const PowerBiContent: React.FC = () => {
                     embedUrl: _report.embedUrl,
                     accessToken: fetchToken.token
                 });
-                console.log(sampleReportConfig, fetchToken)
+
+
+                const config = {
+                    type: 'report',
+                    tokenType: powerbi.models.TokenType.Embed,
+                    accessToken: fetchToken.token,
+                    embedUrl: _report.embedUrl,
+                    id: _report.id,
+                    permissions: powerbi.models.Permissions.All,
+                    settings: {
+                        filterPaneEnabled: true,
+                        navContentPaneEnabled: true
+                    }
+                };
+
+                const reportContainer = reportContainerRef.current;
+
+                //@ts-ignore
+                const pReport = powerbi.embed(reportContainer, config);
+
+                setReport(pReport)
             }
         }
         fetchData();
@@ -211,6 +145,7 @@ const PowerBiContent: React.FC = () => {
     }, [account, inProgress, instance]);
 
     const reportClass = 'report-container';
+
     const reportid: any = sampleReportConfig.id;
     const accessToken: any = sampleReportConfig.accessToken
     return sampleReportConfig.embedUrl ? <div >
@@ -234,23 +169,15 @@ const PowerBiContent: React.FC = () => {
                 MHTML
             </Button>
         </Flex>
-        <PowerBIEmbed
-            embedConfig={sampleReportConfig}
-            eventHandlers={eventHandlersMap}
-            cssClassName={reportClass}
-            getEmbeddedComponent={(embedObject: Embed) => {
-                console.log(`Embedded object of type "${embedObject.embedtype}" received`);
-                // console.log(embedObject)
-                // setReport(embedObject as Report);
-            }}
-        />
+        <div className={reportClass} ref={reportContainerRef} >
+
+        </div>
     </div> : <></>;
 };
 
 export const PowerBi: React.FC = () => {
     return (
         <div>
-
             <PowerBiContent />
         </div>
     );
