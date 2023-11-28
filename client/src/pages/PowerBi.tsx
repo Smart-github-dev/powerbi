@@ -89,17 +89,14 @@ const PowerBiContent: React.FC = () => {
                     }
                 };
 
-
-
                 embed(reportContainerRef, config)
 
-
-                setReportConfig({
-                    ...sampleReportConfig,
-                    id: _report.id,
-                    embedUrl: _report.embedUrl,
-                    accessToken: fetchToken.token
-                });
+                // setReportConfig({
+                //     ...sampleReportConfig,
+                //     id: _report.id,
+                //     embedUrl: _report.embedUrl,
+                //     accessToken: fetchToken.token
+                // });
                 //@ts-ignore
                 // const pReport = powerbi.embed(reportContainer, config);
 
