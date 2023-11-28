@@ -145,7 +145,9 @@ const PowerBiContent: React.FC = () => {
             for (var i = 0; i < visulas.length; i++) {
                 const response = await visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000)
                 var ws = XLSX.read(response.data, { type: 'string' });
-                XLSX.utils.book_append_sheet(wb, ws, visulas[i].title)
+                var sheetName = ws.SheetNames[0];
+                var sheet = ws.Sheets[sheetName];
+                XLSX.utils.book_append_sheet(wb, sheet, visulas[i].title)
             }
             XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
 
@@ -164,20 +166,11 @@ const PowerBiContent: React.FC = () => {
             <Button onClick={() => handleClick()} icon={<FilePdfOutlined />}>
                 PDF
             </Button>
-            <Button onClick={() => exportAndDownloadReport(reportid, accessToken, "PPTX")} icon={<FilePptOutlined />}>
-                PPTX
-            </Button>
             <Button onClick={() => exportExcel()} icon={<FileImageOutlined />}>
-                PNG
-            </Button>
-            <Button onClick={() => exportAndDownloadReport(reportid, accessToken, "CSV")} icon={<FileWordOutlined />}>
-                CSV
-            </Button>
-            <Button onClick={() => exportAndDownloadReport(reportid, token.accessToken, "XLSX")} icon={<FileExcelOutlined />}>
                 XLSX
             </Button>
             <Button onClick={() => exportAndDownloadReport(reportid, token.accessToken, false)} icon={<Html5Outlined />}>
-                MHTML
+                EXPORT (.pbix)
             </Button>
         </Flex>
         <Report
