@@ -141,12 +141,13 @@ const PowerBiContent: React.FC = () => {
             console.log(pages)
             const activePage = pages[0];
 
+            console.log(activePage)
             const visulas = await activePage.getVisuals();
 
             for (var i = 0; i < visulas.length; i++) {
+                console.log(visulas[i])
                 visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000) // Example parameters
                     .then((response: any) => {
-                        console.log(visulas[i])
                         var workbook = XLSX.read(response.data, { type: 'string' });
                         XLSX.writeFile(workbook, 'output.xlsx');
                     }).catch((error: any) => {
