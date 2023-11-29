@@ -180,7 +180,7 @@ const PowerBiContent: React.FC = () => {
             </Button>
         </Flex>
         <Report
-            tokenType={"Aad"}
+            tokenType={"Embed"}
             accessToken={"" + sampleReportConfig.accessToken}
             embedUrl={sampleReportConfig.embedUrl}
             embedId={"" + sampleReportConfig.id}
