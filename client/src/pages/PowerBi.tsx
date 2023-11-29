@@ -67,12 +67,12 @@ const PowerBiContent: React.FC = () => {
         console.log(1)
         const fetchData = async () => {
             if (_report) {
-                console.log(2)
 
                 const fetchToken: any = await callApiWIthTokenAndBody(token.accessToken, gettoken, {
                     datasets: [{ id: _report.datasetId }],
                     reports: [{ id: _report.id }]
                 })
+                console.log(_report.embedUrl)
 
                 setReportConfig({
                     ...sampleReportConfig,
@@ -135,9 +135,6 @@ const PowerBiContent: React.FC = () => {
         if (report) report.print();
     };
 
-
-
-
     const exportExcel = async () => {
         try {
             const pages = await report.getPages();
@@ -148,17 +145,17 @@ const PowerBiContent: React.FC = () => {
             for (var i = 0; i < visulas.length; i++) {
                 const response = await visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000);
                 console.log(response.data);
-                var lines = response.data.split('\n');
-                var result = [];
-                for (var j = 0; j < lines.length; j++) {
-                    var values = lines[j].split(',');
-                    result.push(values);
-                }
-                var ws = XLSX.utils.aoa_to_sheet(result);
-                console.log(ws);
-                XLSX.utils.book_append_sheet(wb, ws, visulas[i].name)
+                // var lines = response.data.split('\n');
+                // var result = [];
+                // for (var j = 0; j < lines.length; j++) {
+                //     var values = lines[j].split(',');
+                //     result.push(values);
+                // }
+                // var ws = XLSX.utils.aoa_to_sheet(result);
+                // console.log(ws);
+                // XLSX.utils.book_append_sheet(wb, ws, visulas[i].name)
             }
-            XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
+            // XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
 
         } catch (error) {
             console.log(error)
