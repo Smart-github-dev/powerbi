@@ -158,9 +158,13 @@ const PowerBiContent: React.FC = () => {
     const handleClick = () => {
         var doc = new jsPDF('p', 'pt', 'letter');
         const reportdata: any = reports[currentReport];
-        const reporthtml: any = reportRef.current;
-        const iframeDocument = reporthtml.iframe.contentDocument || reporthtml.iframe.contentWindow.document;
-        doc.html(iframeDocument.body, {
+        // const reporthtml: any = reportRef.current;
+        const reportElement = report.element;
+
+        // Access the content of the report's HTML element
+        const reportBody = reportElement.contentDocument.body;
+        // const iframeDocument = reporthtml.getElementsByTagName("iframe").iframe.contentDocument || reporthtml.getElementsByTagName("iframe").contentWindow.document;
+        doc.html(reportBody, {
             callback: function (generatedPdf) {
                 console.log(generatedPdf);
                 generatedPdf.save(`${reportdata.name}.pdf`);
