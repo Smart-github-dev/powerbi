@@ -12,6 +12,7 @@ import * as powerbi from 'powerbi-client';
 import { Report, useReport } from "powerbi-report-component"
 import * as XLSX from "xlsx"
 import { jsPDF } from "jspdf"
+import html2canvas from 'html2canvas';
 
 import { Button, Flex } from "antd";
 import {
@@ -155,19 +156,16 @@ const PowerBiContent: React.FC = () => {
 
     const reportid: any = sampleReportConfig.id;
     const accessToken: any = sampleReportConfig.accessToken
-    const handleClick = () => {
+    const handleClick = async () => {
         var doc = new jsPDF('p', 'pt', 'letter');
         const reportdata: any = reports[currentReport];
-        const reportElement = report.element;
-        const iframeDocument = reportElement.getElementsByTagName("iframe")[0].contentDocument || reportElement.getElementsByTagName("iframe")[0].contentWindow.document;
-        console.log(iframeDocument)
-        doc.html(iframeDocument, {
-            callback: function (generatedPdf) {
-                console.log(generatedPdf);
-                generatedPdf.save(`${reportdata.name}.pdf`);
-            }
-        });
-
+        // const iframeDocument = report.element.getElementsByTagName("iframe")[0].contentDocument || report.element.getElementsByTagName("iframe")[0].contentWindow.document;
+        const canvas = await html2canvas(report.element)
+        const imgData = canvas.toDataURL('image/png');;
+        const pdfWidth = doc.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        doc.save(`${reportdata.name}.pdf`);
     };
 
     const exportExcel = async () => {
