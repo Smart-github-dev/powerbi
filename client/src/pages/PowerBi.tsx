@@ -162,6 +162,7 @@ const PowerBiContent: React.FC = () => {
         const reportElement = report.element;
 
         // Access the content of the report's HTML element
+        console.log(reportElement)
         const reportBody = reportElement.contentDocument.body;
         // const iframeDocument = reporthtml.getElementsByTagName("iframe").iframe.contentDocument || reporthtml.getElementsByTagName("iframe").contentWindow.document;
         doc.html(reportBody, {
