@@ -158,10 +158,11 @@ const PowerBiContent: React.FC = () => {
 
                 console.log(result);
 
+                console.log(visulas[i]);
                 var ws = XLSX.utils.aoa_to_sheet(result);
-                XLSX.utils.book_append_sheet(wb, ws, visulas[i].title)
+                // XLSX.utils.book_append_sheet(wb, ws, visulas[i].title)
             }
-            XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
+            // XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
 
         } catch (error) {
             console.log(error)
