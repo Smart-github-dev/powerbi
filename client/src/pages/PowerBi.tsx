@@ -64,21 +64,23 @@ const PowerBiContent: React.FC = () => {
 
 
     useEffect(() => {
-        const reportconfig: any = {
-            embedType: "report",
-            tokenType: "Embed",
-            accessToken: sampleReportConfig.accessToken,
-            embedUrl: sampleReportConfig.embedUrl,
-            embedId: sampleReportConfig.id,
-            reportMode: "View",
-            permissions: "All",
-            onload: handleReportLoad,
-            extraSettings: {
-                filterPaneEnabled: false,
-                navContentPaneEnabled: false
+        if (sampleReportConfig.accessToken) {
+            const reportconfig: any = {
+                embedType: "report",
+                tokenType: "Embed",
+                accessToken: sampleReportConfig.accessToken,
+                embedUrl: sampleReportConfig.embedUrl,
+                embedId: sampleReportConfig.id,
+                reportMode: "View",
+                permissions: "All",
+                onload: handleReportLoad,
+                extraSettings: {
+                    filterPaneEnabled: false,
+                    navContentPaneEnabled: false
+                }
             }
+            setEmbed(reportRef, reportconfig);
         }
-        setEmbed(reportRef, reportconfig);
     }, [sampleReportConfig])
     useEffect(() => {
         const _report: any = reports[currentReport];
