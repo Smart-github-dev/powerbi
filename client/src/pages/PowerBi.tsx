@@ -163,6 +163,7 @@ const PowerBiContent: React.FC = () => {
 
         doc.html(reporthtml, {
             callback: function (generatedPdf) {
+                console.log(generatedPdf);
                 generatedPdf.save(reportdata.name);
             }
         });
