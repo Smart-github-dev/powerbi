@@ -159,11 +159,11 @@ const PowerBiContent: React.FC = () => {
         var doc = new jsPDF('p', 'pt', 'letter');
         const reportdata: any = reports[currentReport];
         const reporthtml: any = reportRef.current;
-
-        doc.html(reporthtml, {
+        const iframeDocument = reporthtml.iframe.contentDocument || reporthtml.iframe.contentWindow.document;
+        doc.html(iframeDocument.body, {
             callback: function (generatedPdf) {
                 console.log(generatedPdf);
-                generatedPdf.save(reportdata.name);
+                generatedPdf.save(`${reportdata.name}.pdf`);
             }
         });
 
