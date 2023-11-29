@@ -147,7 +147,7 @@ const PowerBiContent: React.FC = () => {
                 console.log(response.data);
                 var ws = XLSX.read(response.data.split("\n").map((a: string) => {
                     return a.split(",")
-                }));
+                }), { type: "array" });
                 let sheets: any = ws.Sheets;
                 for (var s of sheets) {
                     console.log(s);
