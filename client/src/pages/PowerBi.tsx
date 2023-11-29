@@ -85,6 +85,8 @@ const PowerBiContent: React.FC = () => {
                     navContentPaneEnabled: false
                 }
             }
+            const demo: any = reportRef.current;
+            demo.style = "height:75vh;"
             setEmbed(reportRef, reportconfig);
         }
     }, [sampleReportConfig])
@@ -158,20 +160,13 @@ const PowerBiContent: React.FC = () => {
         var doc = new jsPDF();
         const reportdata: any = reports[currentReport];
         const reporthtml: any = reportRef.current;
-        doc.html(reporthtml)
-        // doc.fromHTML(
-        //     reportRef.current // HTML string or DOM elem ref.
-        //     , printMargin.left // x coord
-        //     , printMargin.top // y coord
-        //     , {
-        //         'width': printMargin.width // max width of content on PDF
-        //     },
-        //     function () {
-        //     },
-        //     printMargin
-        //     )
 
-        doc.save(reportdata.name);
+        doc.html(reporthtml, {
+            callback: function (generatedPdf) {
+                generatedPdf.save(reportdata.name);
+            }
+        });
+
     };
 
     const exportExcel = async () => {
@@ -216,9 +211,7 @@ const PowerBiContent: React.FC = () => {
         <div className={reportClass} style={{
             height: "75vh",
             width: "100%"
-        }} ref={reportRef} >
-
-        </div>
+        }} ref={reportRef} ></div>
     </div> : <></>;
 };
 
