@@ -145,10 +145,26 @@ const PowerBiContent: React.FC = () => {
             for (var i = 0; i < visulas.length; i++) {
                 const response = await visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000);
                 console.log(response.data);
-                var ws = XLSX.read(response.data, { type: "binary", cellDates: false });
-                let sheets: any = ws.Sheets["Sheet1"];
-                console.log(sheets)
-                XLSX.utils.book_append_sheet(wb, sheets, visulas[i].title)
+
+                // Split the data into lines
+                var lines = response.data.split('\n');
+
+                // Initialize an array to store the result
+                var result = [];
+
+                // Process each line and split it into an array of values
+                for (var i = 0; i < lines.length; i++) {
+                    var values = lines[i].split(',');
+                    result.push(values);
+                }
+
+                // Log the resulting array to the console
+                console.log(result);
+
+                // var ws = XLSX.read(response.data, { type: "binary", cellDates: false });
+                // let sheets: any = ws.Sheets["Sheet1"];
+                // console.log(sheets)
+                // XLSX.utils.book_append_sheet(wb, sheets, visulas[i].title)
             }
             XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
 
