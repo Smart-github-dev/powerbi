@@ -40,19 +40,19 @@ export const NavigationBar = () => {
 
   return (
     <Header style={{ padding: 0, background: "#001529" }}  >
-      <Flex gap="middle" align="center">
+      <div style={{ display: "inline-block", paddingRight: "10%", paddingLeft: "10%" }}>
         <AuthenticatedTemplate>
           <div style={{ float: "left" }}>
-            <Button>
-              <NavLink to="/profile">
+            <NavLink to="/profile">
+              <Button>
                 Profile
-              </NavLink>
-            </Button>
-            <Button>
-              <NavLink to="/powerbi">
+              </Button>
+            </NavLink>
+            <NavLink to="/powerbi">
+              <Button>
                 PowerBi
-              </NavLink>
-            </Button>
+              </Button>
+            </NavLink>
           </div>
           <Button
             type={"primary"}
@@ -60,9 +60,8 @@ export const NavigationBar = () => {
             style={{ float: "right" }}
             onClick={handleLogout}
           >
-            Sign out{" "}
+            Sign out
           </Button>
-
         </AuthenticatedTemplate>
         <UnauthenticatedTemplate>
           <Button
@@ -75,8 +74,7 @@ export const NavigationBar = () => {
             Sign in
           </Button>
         </UnauthenticatedTemplate>
-      </Flex>
-
+      </div>
     </Header>
   );
 };
