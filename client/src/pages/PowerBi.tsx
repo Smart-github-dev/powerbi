@@ -65,6 +65,7 @@ const PowerBiContent: React.FC = () => {
 
     useEffect(() => {
         if (sampleReportConfig.accessToken) {
+            console.log(reportRef.current)
             const reportconfig: any = {
                 embedType: "report",
                 tokenType: "Embed",
@@ -73,7 +74,6 @@ const PowerBiContent: React.FC = () => {
                 embedId: sampleReportConfig.id,
                 reportMode: "View",
                 permissions: "All",
-                onload: handleReportLoad,
                 extraSettings: {
                     filterPaneEnabled: false,
                     navContentPaneEnabled: false
