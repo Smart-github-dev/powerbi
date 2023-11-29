@@ -116,7 +116,6 @@ const PowerBiContent: React.FC = () => {
             if (token) {
                 const fetchedReports: any = await callApiWithToken(token.accessToken, getrepots);
                 setReportData(fetchedReports);
-                console.log(fetchedReports);
             }
         }
         fetchData()
@@ -157,7 +156,7 @@ const PowerBiContent: React.FC = () => {
     const reportid: any = sampleReportConfig.id;
     const accessToken: any = sampleReportConfig.accessToken
     const handleClick = () => {
-        var doc = new jsPDF();
+        var doc = new jsPDF('p', 'pt', 'letter');
         const reportdata: any = reports[currentReport];
         const reporthtml: any = reportRef.current;
 
