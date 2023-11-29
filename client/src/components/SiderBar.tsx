@@ -16,7 +16,7 @@ const SiderBar: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const reports = useSelector((state: RootState) => state.powerbi.reports);
-    
+
     const reportDetail = ({ key }: any) => {
         dispatch(selectReport(key))
     }
@@ -26,7 +26,7 @@ const SiderBar: React.FC = () => {
             <div className="demo-logo-vertical" />
             <Menu
                 // theme="dark"
-                style={{ backgroundColor: "transparent" }}
+                style={{ backgroundColor: "white", height: "100%" }}
                 mode="inline"
                 onClick={reportDetail}
                 items={reports.map((report: any, index: number) => {
