@@ -149,9 +149,10 @@ const PowerBiContent: React.FC = () => {
                     return a.split(",")
                 }), { type: "array" });
                 let sheets: any = ws.Sheets;
-                for (var s in sheets) {
-                    console.log(s);
-                }
+                console.log(sheets)
+                // for (var s in sheets) {
+                //     console.log(s);
+                // }
                 // var sheet = ws.Sheets[0];
                 // XLSX.utils.book_append_sheet(wb, ws, visulas[i].title)
             }
