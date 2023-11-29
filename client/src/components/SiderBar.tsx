@@ -27,6 +27,7 @@ const SiderBar: React.FC = () => {
             <Menu
                 theme={"light"}
                 mode="inline"
+                style={{backgroundColor:"transparent"}}
                 onClick={reportDetail}
                 items={reports.map((report: any, index: number) => {
                     return {
