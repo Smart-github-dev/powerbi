@@ -64,8 +64,11 @@ const PowerBiContent: React.FC = () => {
 
     useEffect(() => {
         const _report: any = reports[currentReport];
+        console.log(1)
         const fetchData = async () => {
             if (_report) {
+                console.log(2)
+
                 const fetchToken: any = await callApiWIthTokenAndBody(token.accessToken, gettoken, {
                     datasets: [{ id: _report.datasetId }],
                     reports: [{ id: _report.id }]
@@ -151,8 +154,6 @@ const PowerBiContent: React.FC = () => {
                     var values = lines[j].split(',');
                     result.push(values);
                 }
-                console.log(result);
-                console.log(visulas[i]);
                 var ws = XLSX.utils.aoa_to_sheet(result);
                 console.log(ws);
                 XLSX.utils.book_append_sheet(wb, ws, visulas[i].name)
