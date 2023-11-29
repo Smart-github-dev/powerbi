@@ -24,6 +24,7 @@ const SiderBar: React.FC = () => {
             <div className="demo-logo-vertical" />
             <Menu
                 theme="dark"
+                style={{ backgroundColor: "seashell" }}
                 mode="inline"
                 onClick={reportDetail}
                 items={reports.map((report: any, index: number) => {
