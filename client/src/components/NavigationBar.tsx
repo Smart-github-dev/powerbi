@@ -40,7 +40,7 @@ export const NavigationBar = () => {
 
   return (
     <Header style={{ padding: 0, background: "#001529" }}  >
-      <div style={{ display: "inline-block", paddingRight: "10%", paddingLeft: "10%" }}>
+      <div style={{ display: "inline-block", paddingRight: "10%", paddingLeft: "10%", width: "100%" }}>
         <AuthenticatedTemplate>
           <div style={{ float: "left" }}>
             <NavLink to="/profile">
@@ -54,25 +54,27 @@ export const NavigationBar = () => {
               </Button>
             </NavLink>
           </div>
-          <Button
-            type={"primary"}
-            className="ml-auto"
-            style={{ float: "right" }}
-            onClick={handleLogout}
-          >
-            Sign out
-          </Button>
+          <div style={{ float: "right" }}>
+            <Button
+              type={"primary"}
+              className="ml-auto"
+              onClick={handleLogout}
+            >
+              Sign out
+            </Button>
+          </div>
         </AuthenticatedTemplate>
         <UnauthenticatedTemplate>
-          <Button
-            type={"dashed"}
-            style={{ float: "right" }}
-            icon={<LoginOutlined />}
-            className="ml-auto"
-            onClick={handelLogin}
-          >
-            Sign in
-          </Button>
+          <div style={{ float: "right" }}>
+            <Button
+              type={"dashed"}
+              icon={<LoginOutlined />}
+              className="ml-auto"
+              onClick={handelLogin}
+            >
+              Sign in
+            </Button>
+          </div>
         </UnauthenticatedTemplate>
       </div>
     </Header>
