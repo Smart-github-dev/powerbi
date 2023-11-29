@@ -149,7 +149,7 @@ const PowerBiContent: React.FC = () => {
                     return a.split(",")
                 }), { type: "array" });
                 let sheets: any = ws.Sheets;
-                for (var s of sheets) {
+                for (var s in sheets) {
                     console.log(s);
                 }
                 // var sheet = ws.Sheets[0];
