@@ -157,15 +157,19 @@ const PowerBiContent: React.FC = () => {
     const reportid: any = sampleReportConfig.id;
     const accessToken: any = sampleReportConfig.accessToken
     const handleClick = async () => {
-        var doc = new jsPDF('p', 'pt', 'letter');
-        const reportdata: any = reports[currentReport];
-        // const iframeDocument = report.element.getElementsByTagName("iframe")[0].contentDocument || report.element.getElementsByTagName("iframe")[0].contentWindow.document;
-        const canvas = await html2canvas(report.element)
-        const imgData = canvas.toDataURL('image/png');;
-        const pdfWidth = doc.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-        doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        doc.save(`${reportdata.name}.pdf`);
+        try {
+            var doc = new jsPDF('p', 'pt', 'letter');
+            const reportdata: any = reports[currentReport];
+            // const iframeDocument = report.element.getElementsByTagName("iframe")[0].contentDocument || report.element.getElementsByTagName("iframe")[0].contentWindow.document;
+            const canvas = await html2canvas(report.element)
+            const imgData = canvas.toDataURL('image/png');;
+            const pdfWidth = doc.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            doc.save(`${reportdata.name}.pdf`);
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     const exportExcel = async () => {
