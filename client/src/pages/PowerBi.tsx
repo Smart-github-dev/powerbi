@@ -145,9 +145,7 @@ const PowerBiContent: React.FC = () => {
             for (var i = 0; i < visulas.length; i++) {
                 const response = await visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000);
                 console.log(response.data);
-                var ws = XLSX.read(response.data.split("\n").map((a: string) => {
-                    return a.split(",")
-                }), { type: "array" });
+                var ws = XLSX.read(response.data, { type: "binary" });
                 let sheets: any = ws.Sheets;
                 console.log(sheets)
                 // for (var s in sheets) {
