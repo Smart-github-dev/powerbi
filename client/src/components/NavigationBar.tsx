@@ -4,6 +4,7 @@ import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
+  LoginOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Flex } from 'antd';
 
@@ -36,12 +37,12 @@ export const NavigationBar = () => {
       .catch((error) => console.log(error));
   };
 
-  
+
   return (
     <Header style={{ padding: 0, background: "#001529" }}  >
-      <Flex gap="middle" justify={"space-around"} align="center">
+      <Flex gap="middle" align="center">
         <AuthenticatedTemplate>
-          <div>
+          <div style={{ float: "left" }}>
             <Button>
               <NavLink to="/profile">
                 Profile
@@ -56,7 +57,7 @@ export const NavigationBar = () => {
           <Button
             type={"primary"}
             className="ml-auto"
-
+            style={{ float: "right" }}
             onClick={handleLogout}
           >
             Sign out{" "}
@@ -65,7 +66,9 @@ export const NavigationBar = () => {
         </AuthenticatedTemplate>
         <UnauthenticatedTemplate>
           <Button
-            type={"link"}
+            type={"dashed"}
+            style={{ float: "right" }}
+            icon={<LoginOutlined />}
             className="ml-auto"
             onClick={handelLogin}
           >
