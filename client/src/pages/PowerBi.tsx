@@ -145,14 +145,16 @@ const PowerBiContent: React.FC = () => {
             for (var i = 0; i < visulas.length; i++) {
                 const response = await visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000);
                 console.log(response.data);
-                var ws = XLSX.utils.sheet_to_json(response.data);
-                // let sheets: any = ws.Sheets;
-                // for (var s of sheets) {
-                //     console.log(s);
-                // }
+                var ws = XLSX.read(response.data.split("\n").map((a: string) => {
+                    return a.split(",")
+                }));
+                let sheets: any = ws.Sheets;
+                for (var s of sheets) {
+                    console.log(s);
+                }
                 // var sheet = ws.Sheets[0];
-                console.log(ws)
-                XLSX.utils.book_append_sheet(wb, ws, visulas[i].title)
+                // console.log(ws)
+                // XLSX.utils.book_append_sheet(wb, ws, visulas[i].title)
             }
             XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
 
