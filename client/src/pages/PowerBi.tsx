@@ -190,7 +190,7 @@ const PowerBiContent: React.FC = () => {
         // } catch (error) {
         //     console.log(error)
         // }
-        if (report) report.element.print()
+        if (report) report.print()
     };
 
     const exportExcel = async () => {
