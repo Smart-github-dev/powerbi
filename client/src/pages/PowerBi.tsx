@@ -151,8 +151,8 @@ const PowerBiContent: React.FC = () => {
 
                 var result = [];
 
-                for (var i = 0; i < lines.length; i++) {
-                    var values = lines[i].split(',');
+                for (var j = 0; j < lines.length; j++) {
+                    var values = lines[j].split(',');
                     result.push(values);
                 }
 
@@ -160,9 +160,9 @@ const PowerBiContent: React.FC = () => {
 
                 console.log(visulas[i]);
                 var ws = XLSX.utils.aoa_to_sheet(result);
-                // XLSX.utils.book_append_sheet(wb, ws, visulas[i].title)
+                XLSX.utils.book_append_sheet(wb, ws, visulas[i].title)
             }
-            // XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
+            XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
 
         } catch (error) {
             console.log(error)
