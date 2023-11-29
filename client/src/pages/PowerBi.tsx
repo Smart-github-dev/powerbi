@@ -166,7 +166,7 @@ const PowerBiContent: React.FC = () => {
                 // console.log(sheets)
                 // XLSX.utils.book_append_sheet(wb, sheets, visulas[i].title)
             }
-            XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
+            // XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
 
         } catch (error) {
             console.log(error)
