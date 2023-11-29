@@ -139,7 +139,7 @@ const PowerBiContent: React.FC = () => {
             const visulas = await activePage.getVisuals();
             var wb = XLSX.utils.book_new();
             for (var i = 0; i < visulas.length; i++) {
-                const response = await visulas[i].exportData(powerbi.models.ExportDataType.Underlying, 100000);
+                const response = await visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 100000);
                 console.log(response.data);
                 var lines = response.data.split('\n');
                 var result = [];
