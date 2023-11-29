@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../store';
 import { setData } from '../store/rootReducer';
 import * as powerbi from 'powerbi-client';
-import { Report } from "powerbi-report-component"
+import { Report, useReport } from "powerbi-report-component"
 import * as XLSX from "xlsx"
 
 
@@ -22,6 +22,7 @@ import {
     FileWordOutlined,
     FileExcelOutlined
 } from '@ant-design/icons';
+import { ReportProps } from "powerbi-report-component/lib/types";
 
 const PowerBiContent: React.FC = () => {
     const reports = useSelector((state: RootState) => state.powerbi.reports);
@@ -32,9 +33,8 @@ const PowerBiContent: React.FC = () => {
     const { instance, accounts, inProgress } = useMsal();
     const account = useAccount(accounts[0] || {}) as AccountInfo;
     const [token, setToken] = useState<any>(null);
-    const reportContainerRef = useRef(null);
-    const [report, setReport] = useState<any>(null)
-
+    const reportRef = useRef(null);
+    const [report, setEmbed] = useReport()
     const setReportData = (data: any) => {
         dispatch(setData(data.value))
     }
@@ -62,6 +62,24 @@ const PowerBiContent: React.FC = () => {
         },
     });
 
+
+    useEffect(() => {
+        const reportconfig: any = {
+            embedType: "report",
+            tokenType: "Embed",
+            accessToken: sampleReportConfig.accessToken,
+            embedUrl: sampleReportConfig.embedUrl,
+            embedId: sampleReportConfig.id,
+            reportMode: "View",
+            permissions: "All",
+            onload: handleReportLoad,
+            extraSettings: {
+                filterPaneEnabled: false,
+                navContentPaneEnabled: false
+            }
+        }
+        setEmbed(reportRef, reportconfig);
+    }, [sampleReportConfig])
     useEffect(() => {
         const _report: any = reports[currentReport];
         const fetchData = async () => {
@@ -70,6 +88,7 @@ const PowerBiContent: React.FC = () => {
                     datasets: [{ id: _report.datasetId }],
                     reports: [{ id: _report.id }]
                 })
+
                 setReportConfig({
                     ...sampleReportConfig,
                     id: _report.id,
@@ -159,25 +178,28 @@ const PowerBiContent: React.FC = () => {
     }
 
     const handleReportLoad = (report: any) => {
-        setReport(report)
+        // setReport(report)
         console.log(report)
     }
     const getReport = () => {
 
-        return (<Report
-            tokenType={"Embed"}
-            accessToken={"" + sampleReportConfig.accessToken}
-            embedUrl={sampleReportConfig.embedUrl}
-            embedId={"" + sampleReportConfig.id}
-            reportMode="View"
-            permissions="All"
-            datasetId={sampleReportConfig.datasetid}
-            style={{
-                height: "75vh",
-                width: "100 %"
-            }}
-            onLoad={handleReportLoad}
-        />)
+        // return (
+        // <Report
+        //     ref={reportRef}
+        //     tokenType={"Embed"}
+        //     accessToken={"" + sampleReportConfig.accessToken}
+        //     embedUrl={sampleReportConfig.embedUrl}
+        //     embedId={"" + sampleReportConfig.id}
+        //     reportMode="View"
+        //     permissions="All"
+        //     datasetId={sampleReportConfig.datasetid}
+        //     style={{
+        //         height: "75vh",
+        //         width: "100 %"
+        //     }}
+        //     onLoad={handleReportLoad}
+        // />
+        // )
     }
     return sampleReportConfig.embedUrl ? <div >
         <Flex justify={"space-between"}>
@@ -191,7 +213,7 @@ const PowerBiContent: React.FC = () => {
                 EXPORT (.pbix)
             </Button>
         </Flex>
-        {getReport()}
+        <div className="report-container" ref={reportRef} />
     </div> : <></>;
 };
 
