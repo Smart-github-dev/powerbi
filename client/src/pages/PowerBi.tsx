@@ -175,7 +175,7 @@ const PowerBiContent: React.FC = () => {
 
             // Draw the entire content of the body onto the canvas
             //@ts-ignore
-            context.drawImage(report.element, 0, 0, report.element.scrollWidth, report.element.scrollHeight, 'rgb(255, 255, 255)');
+            context.drawImage(reportRef.current, 0, 0, report.element.scrollWidth, report.element.scrollHeight);
 
             // Convert the canvas content to a data URL representing a PNG image
             var dataUrl = canvas.toDataURL('image/png');
