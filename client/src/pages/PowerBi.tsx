@@ -147,7 +147,7 @@ const PowerBiContent: React.FC = () => {
                 console.log(response.data);
                 var ws = XLSX.read(response.data, { type: 'string' });
                 var sheet = ws.Sheets[0];
-                console.log(sheet)
+                console.log( ws)
                 XLSX.utils.book_append_sheet(wb, sheet, visulas[i].title)
             }
             XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
