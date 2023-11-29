@@ -17,7 +17,6 @@ const SiderBar: React.FC = () => {
 
     const reports = useSelector((state: RootState) => state.powerbi.reports);
     const reportDetail = ({ key }: any) => {
-        console.log(key)
         dispatch(selectReport(key))
     }
     return (
@@ -26,7 +25,6 @@ const SiderBar: React.FC = () => {
             <Menu
                 theme="dark"
                 mode="inline"
-                defaultSelectedKeys={['1']}
                 onClick={reportDetail}
                 items={reports.map((report: any, index: number) => {
                     return {
