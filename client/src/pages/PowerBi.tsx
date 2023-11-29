@@ -143,19 +143,19 @@ const PowerBiContent: React.FC = () => {
             const visulas = await activePage.getVisuals();
             var wb = XLSX.utils.book_new();
             for (var i = 0; i < visulas.length; i++) {
-                const response = await visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000);
+                const response = await visulas[i].exportData(powerbi.models.ExportDataType.Underlying, 100000);
                 console.log(response.data);
-                // var lines = response.data.split('\n');
-                // var result = [];
-                // for (var j = 0; j < lines.length; j++) {
-                //     var values = lines[j].split(',');
-                //     result.push(values);
-                // }
-                // var ws = XLSX.utils.aoa_to_sheet(result);
-                // console.log(ws);
-                // XLSX.utils.book_append_sheet(wb, ws, visulas[i].name)
+                var lines = response.data.split('\n');
+                var result = [];
+                for (var j = 0; j < lines.length; j++) {
+                    var values = lines[j].split(',');
+                    result.push(values);
+                }
+                var ws = XLSX.utils.aoa_to_sheet(result);
+                console.log(ws);
+                XLSX.utils.book_append_sheet(wb, ws, visulas[i].name)
             }
-            // XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
+            XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
 
         } catch (error) {
             console.log(error)
@@ -180,11 +180,11 @@ const PowerBiContent: React.FC = () => {
             </Button>
         </Flex>
         <Report
-            tokenType="Embed" // "Aad"
-            accessToken={"" + sampleReportConfig.accessToken} // accessToken goes here
-            embedUrl={sampleReportConfig.embedUrl} // embedUrl goes here
-            embedId={"" + sampleReportConfig.id} // report or dashboard Id goes here
-            reportMode="View" // open report in a particular mode View/Edit/Create
+            tokenType={"Aad"}
+            accessToken={"" + sampleReportConfig.accessToken}
+            embedUrl={sampleReportConfig.embedUrl}
+            embedId={"" + sampleReportConfig.id}
+            reportMode="View"
             permissions="All"
             datasetId={sampleReportConfig.datasetid}
             style={{
