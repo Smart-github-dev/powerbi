@@ -22,11 +22,10 @@ const SiderBar: React.FC = () => {
     }
 
     return (
-        <Sider trigger={null} collapsible collapsed={collapsed} style={{ minHeight: "85vh", backgroundColor: "ThreeDDarkShadow" }}>
+        <Sider trigger={null} collapsible collapsed={collapsed} style={{ minHeight: "85vh", backgroundColor: "red" }}>
             <div className="demo-logo-vertical" />
             <Menu
-                // theme="dark"
-                style={{ backgroundColor: "white", height: "100%" }}
+                theme="dark"
                 mode="inline"
                 onClick={reportDetail}
                 items={reports.map((report: any, index: number) => {
