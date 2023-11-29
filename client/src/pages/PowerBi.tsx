@@ -44,6 +44,13 @@ const PowerBiContent: React.FC = () => {
         account: account
     }
 
+    const [printMargin, setMargin] = useState({
+        top: 80,
+        bottom: 60,
+        left: 40,
+        width: 522
+    })
+
 
     useMsalAuthentication(authconfig);
 
@@ -65,7 +72,6 @@ const PowerBiContent: React.FC = () => {
 
     useEffect(() => {
         if (sampleReportConfig.accessToken) {
-            console.log(reportRef.current)
             const reportconfig: any = {
                 embedType: "report",
                 tokenType: "Embed",
@@ -150,9 +156,22 @@ const PowerBiContent: React.FC = () => {
     const accessToken: any = sampleReportConfig.accessToken
     const handleClick = () => {
         var doc = new jsPDF();
-        doc.html(report);
         const reportdata: any = reports[currentReport];
-        doc.save(reportdata.name)
+        const reporthtml: any = reportRef.current;
+        doc.html(reporthtml)
+        // doc.fromHTML(
+        //     reportRef.current // HTML string or DOM elem ref.
+        //     , printMargin.left // x coord
+        //     , printMargin.top // y coord
+        //     , {
+        //         'width': printMargin.width // max width of content on PDF
+        //     },
+        //     function () {
+        //     },
+        //     printMargin
+        //     )
+
+        doc.save(reportdata.name);
     };
 
     const exportExcel = async () => {
@@ -182,27 +201,6 @@ const PowerBiContent: React.FC = () => {
         }
     }
 
-
-    const getReport = () => {
-
-        // return (
-        // <Report
-        //     ref={reportRef}
-        //     tokenType={"Embed"}
-        //     accessToken={"" + sampleReportConfig.accessToken}
-        //     embedUrl={sampleReportConfig.embedUrl}
-        //     embedId={"" + sampleReportConfig.id}
-        //     reportMode="View"
-        //     permissions="All"
-        //     datasetId={sampleReportConfig.datasetid}
-        //     style={{
-        //         height: "75vh",
-        //         width: "100 %"
-        //     }}
-        //     onLoad={handleReportLoad}
-        // />
-        // )
-    }
     return sampleReportConfig.embedUrl ? <div >
         <Flex justify={"space-between"}>
             <Button onClick={() => handleClick()} icon={<FilePdfOutlined />}>
@@ -215,7 +213,12 @@ const PowerBiContent: React.FC = () => {
                 EXPORT (.pbix)
             </Button>
         </Flex>
-        <div className={reportClass} ref={reportRef} />
+        <div className={reportClass} style={{
+            height: "75vh",
+            width: "100%"
+        }} ref={reportRef} >
+
+        </div>
     </div> : <></>;
 };
 
