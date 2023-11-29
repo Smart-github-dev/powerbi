@@ -11,7 +11,7 @@ import { setData } from '../store/rootReducer';
 import * as powerbi from 'powerbi-client';
 import { Report, useReport } from "powerbi-report-component"
 import * as XLSX from "xlsx"
-
+import { jsPDF } from "jspdf"
 
 import { Button, Flex } from "antd";
 import {
@@ -149,7 +149,10 @@ const PowerBiContent: React.FC = () => {
     const reportid: any = sampleReportConfig.id;
     const accessToken: any = sampleReportConfig.accessToken
     const handleClick = () => {
-        if (report) report.print();
+
+        var doc = new jsPDF();
+
+        console.log(report, doc)
     };
 
     const exportExcel = async () => {
@@ -179,10 +182,7 @@ const PowerBiContent: React.FC = () => {
         }
     }
 
-    const handleReportLoad = (report: any) => {
-        // setReport(report)
-        console.log(report)
-    }
+
     const getReport = () => {
 
         // return (
@@ -215,7 +215,7 @@ const PowerBiContent: React.FC = () => {
                 EXPORT (.pbix)
             </Button>
         </Flex>
-        <div className="report-container" ref={reportRef} />
+        <div className={reportClass} ref={reportRef} />
     </div> : <></>;
 };
 
