@@ -64,16 +64,12 @@ const PowerBiContent: React.FC = () => {
 
     useEffect(() => {
         const _report: any = reports[currentReport];
-        console.log(1)
         const fetchData = async () => {
             if (_report) {
-
                 const fetchToken: any = await callApiWIthTokenAndBody(token.accessToken, gettoken, {
                     datasets: [{ id: _report.datasetId }],
                     reports: [{ id: _report.id }]
                 })
-                console.log(_report.embedUrl)
-
                 setReportConfig({
                     ...sampleReportConfig,
                     id: _report.id,
@@ -166,20 +162,9 @@ const PowerBiContent: React.FC = () => {
         setReport(report)
         console.log(report)
     }
+    const getReport = () => {
 
-    return sampleReportConfig.embedUrl ? <div >
-        <Flex justify={"space-between"}>
-            <Button onClick={() => handleClick()} icon={<FilePdfOutlined />}>
-                PDF
-            </Button>
-            <Button onClick={() => exportExcel()} icon={<FileImageOutlined />}>
-                XLSX
-            </Button>
-            <Button onClick={() => exportAndDownloadReport(reportid, token.accessToken, false)} icon={<Html5Outlined />}>
-                EXPORT (.pbix)
-            </Button>
-        </Flex>
-        <Report
+        return (<Report
             tokenType={"Embed"}
             accessToken={"" + sampleReportConfig.accessToken}
             embedUrl={sampleReportConfig.embedUrl}
@@ -192,7 +177,21 @@ const PowerBiContent: React.FC = () => {
                 width: "100 %"
             }}
             onLoad={handleReportLoad}
-        />
+        />)
+    }
+    return sampleReportConfig.embedUrl ? <div >
+        <Flex justify={"space-between"}>
+            <Button onClick={() => handleClick()} icon={<FilePdfOutlined />}>
+                PDF
+            </Button>
+            <Button onClick={() => exportExcel()} icon={<FileImageOutlined />}>
+                XLSX
+            </Button>
+            <Button onClick={() => exportAndDownloadReport(reportid, token.accessToken, false)} icon={<Html5Outlined />}>
+                EXPORT (.pbix)
+            </Button>
+        </Flex>
+        {getReport()}
     </div> : <></>;
 };
 
