@@ -149,10 +149,10 @@ const PowerBiContent: React.FC = () => {
     const reportid: any = sampleReportConfig.id;
     const accessToken: any = sampleReportConfig.accessToken
     const handleClick = () => {
-
         var doc = new jsPDF();
-
-        console.log(report, doc)
+        doc.html(report);
+        const reportdata: any = reports[currentReport];
+        doc.save(reportdata.name)
     };
 
     const exportExcel = async () => {
