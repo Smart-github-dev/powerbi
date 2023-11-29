@@ -68,46 +68,25 @@ export const exportAndDownloadReport = async (
   exportFormat: any
 ) => {
   try {
-    const apiUrl = "https://api.powerbi.com";
-
-    const exportParameters = {
-      format: "Pdf",
-      locale: "en-US",
-    };
-
-    // if (!exportFormat) {
+    var a = document.createElement("a");
+    a.href = "exportTo/";
     axios({
-      method: "POST",
+      method: "GET",
       url: "exportTo",
-      data: {
+      params: {
         format: exportFormat,
         accessToken: accessToken,
         reportId: reportId,
       },
     })
       .then((response) => {
+        var b = new Blob([response.data], { type: "aplication/zip" });
+
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
-    // } else {
-    // axios({
-    //   method: "POST",
-    //   url: "exportTofile",
-    //   data: {
-    //     format: exportFormat,
-    //     accessToken: accessToken,
-    //     reportId: reportId,
-    //   },
-    // })
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    // }
   } catch (error) {
     console.error("Error:", error);
   }

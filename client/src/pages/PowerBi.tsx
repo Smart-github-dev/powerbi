@@ -155,41 +155,7 @@ const PowerBiContent: React.FC = () => {
     const reportClass = 'report-container';
 
     const reportid: any = sampleReportConfig.id;
-    const accessToken: any = sampleReportConfig.accessToken
     const handleClick = async () => {
-        // try {
-        //     var doc = new jsPDF('p', 'pt', 'letter');
-        //     const reportdata: any = reports[currentReport];
-        //     // const iframeDocument = report.element.getElementsByTagName("iframe")[0].contentDocument || report.element.getElementsByTagName("iframe")[0].contentWindow.document;
-        //     // const canvas = await html2canvas(report.element)
-        //     // const imgData = canvas.toDataURL('image/png');;
-        //     // const pdfWidth = doc.internal.pageSize.getWidth();
-        //     // const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-        //     // doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        //     // doc.save(`${reportdata.name}.pdf`);
-        //     var canvas = document.createElement('canvas');
-        //     canvas.width = report.element.scrollWidth;
-        //     canvas.height = report.element.scrollHeight;
-
-        //     var context = canvas.getContext('2d');
-
-        //     // Draw the entire content of the body onto the canvas
-        //     //@ts-ignore
-        //     context.drawImage(reportRef.current, 0, 0, report.element.scrollWidth, report.element.scrollHeight);
-
-        //     // Convert the canvas content to a data URL representing a PNG image
-        //     var dataUrl = canvas.toDataURL('image/png');
-
-        //     // Create an image element to display the captured content
-        //     var img = new Image();
-        //     img.src = dataUrl;
-
-        //     // Append the image to the document
-        //     document.body.appendChild(img);
-
-        // } catch (error) {
-        //     console.log(error)
-        // }
         if (report) report.print()
     };
 
