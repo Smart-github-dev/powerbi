@@ -145,23 +145,17 @@ const PowerBiContent: React.FC = () => {
             for (var i = 0; i < visulas.length; i++) {
                 const response = await visulas[i].exportData(powerbi.models.ExportDataType.Summarized, 1000);
                 console.log(response.data);
-
-                // Split the data into lines
                 var lines = response.data.split('\n');
-
                 var result = [];
-
                 for (var j = 0; j < lines.length; j++) {
                     var values = lines[j].split(',');
                     result.push(values);
                 }
-
                 console.log(result);
-
                 console.log(visulas[i]);
                 var ws = XLSX.utils.aoa_to_sheet(result);
                 console.log(ws);
-                XLSX.utils.book_append_sheet(wb, ws, "sheedt")
+                XLSX.utils.book_append_sheet(wb, ws, visulas[i].name)
             }
             XLSX.writeFile(wb, `${activePage.displayName}.xlsx`);
 
